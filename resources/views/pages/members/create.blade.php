@@ -63,7 +63,7 @@
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="phone">Telepon</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}" required>
+                                    <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}" minlength="10" maxlength="13" required>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
@@ -75,18 +75,18 @@
                         </div>
                        
                         <div class="form-group">
-                            <label for="member_type">Tipe Anggota</label>
-                            <select class="form-control" id="member_type" name="member_type" required>
+                            <label for="type">Tipe Anggota</label>
+                            <select class="form-control" id="type" name="type" required>
                                 <option value="" disabled selected>Pilih tipe anggota</option>
-                                <option value="pelajar" {{ old('member_type') == 'pelajar' ? 'selected' : '' }}>Pelajar</option>
-                                <option value="mahasiswa" {{ old('member_type') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
-                                <option value="guru" {{ old('member_type') == 'guru' ? 'selected' : '' }}>Guru</option>
-                                <option value="dosen" {{ old('member_type') == 'dosen' ? 'selected' : '' }}>Dosen</option>
-                                <option value="umum" {{ old('member_type') == 'umum' ? 'selected' : '' }}>Umum</option>
+                                <option value="pelajar" {{ old('type') == 'pelajar' ? 'selected' : '' }}>Pelajar</option>
+                                <option value="mahasiswa" {{ old('type') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                                <option value="guru" {{ old('type') == 'guru' ? 'selected' : '' }}>Guru</option>
+                                <option value="dosen" {{ old('type') == 'dosen' ? 'selected' : '' }}>Dosen</option>
+                                <option value="umum" {{ old('type') == 'umum' ? 'selected' : '' }}>Umum</option>
                             </select>
-                            @if ($errors->has('member_type'))
+                            @if ($errors->has('type'))
                                 <div class="text-danger">
-                                    {{ $errors->first('member_type') }}
+                                    {{ $errors->first('type') }}
                                 </div>
                             @endif
                         </div>
