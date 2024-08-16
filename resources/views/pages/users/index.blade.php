@@ -28,6 +28,9 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="fas fa-plus mr-1"></i>Tambah Pengguna</a>
+                </div>
                 <div class="card-body">
                     <table class="table table-bordered">
                         <thead>
