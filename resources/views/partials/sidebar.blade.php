@@ -64,7 +64,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('categories.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-list"></i>
                         <p>
                             Kategori
@@ -72,7 +72,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('publishers.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-print"></i>
                         <p>
                             Penerbit

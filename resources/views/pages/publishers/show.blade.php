@@ -13,7 +13,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item active"><i class="fas fa-book mr-1"></i> Buku</li>
+                            <li class="breadcrumb-item"><a href="{{ route('publishers.index') }}"><i class="fas fa-list mr-1"></i> Penerbit</a></li>
+                            <li class="breadcrumb-item active">Daftar Buku</li>
                         </ol>
                     </div>
                 </div>
@@ -55,8 +56,8 @@
                                     <td>{{ $book->isbn }}</td>
                                     <td>{{ $book->author }}</td>
                                     <td>{{ $book->published_year }}</td>
-                                    <td>{{ $book->category->name ?? "" }}</td>
-                                    <td>{{ $book->publisher->name ?? "" }}</td>
+                                    <td>{{ $book->category->name }}</td>
+                                    <td>{{ $book->publisher->name }}</td>
                                     <td>{{ $book->stock }}</td>
                                     <td>{{ formatRp($book->rental_price) }}</td>
                                     <td>

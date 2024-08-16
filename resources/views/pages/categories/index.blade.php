@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Buku')
+@section('title', 'Daftar Kategori')
 
 @section('page-header')
 <div class="row">
@@ -9,11 +9,11 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Daftar Buku</h1>
+                        <h1>Daftar Kategori</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item active"><i class="fas fa-book mr-1"></i> Buku</li>
+                            <li class="breadcrumb-item active"><i class="fas fa-list mr-1"></i> Kategori</li>
                         </ol>
                     </div>
                 </div>
@@ -29,36 +29,24 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('books.create') }}" class="btn btn-primary"><i class="fas fa-plus mr-1"></i>Tambah Buku</a>
+                    <a href="{{ route('categories.create') }}" class="btn btn-primary"><i class="fas fa-plus mr-1"></i>Tambah Kategori</a>
                 </div>
                 <div class="card-body">
-                    <table table id="booksTable" class="table table-bordered table-striped dataTable dtr-inline">
+                    <table table id="categoriesTable" class="table table-bordered table-striped dataTable dtr-inline">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Judul</th>
-                                <th>ISBN</th>
-                                <th>Pengarang</th>
-                                <th>Tahun Terbit</th>
-                                <th>Kategori</th>
-                                <th>Penerbit</th>
-                                <th>Stok</th>
-                                <th>Harga Sewa</th>
+                                <th>Tanggal Dibuat</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($books as $book)
+                            @foreach ($categories as $category)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $book->title }}</td>
-                                    <td>{{ $book->isbn }}</td>
-                                    <td>{{ $book->author }}</td>
-                                    <td>{{ $book->published_year }}</td>
-                                    <td>{{ $book->category->name ?? "" }}</td>
-                                    <td>{{ $book->publisher->name ?? "" }}</td>
-                                    <td>{{ $book->stock }}</td>
-                                    <td>{{ formatRp($book->rental_price) }}</td>
+                                    <td>{{ $category->name }}</td>
+                                    <td>{{ $category->created_at }}</td>
                                     <td>
                                         <div class="btn-group dropleft">
                                             <button type="button" class="btn btn-secondary btn-sm">Pilih</button>
@@ -66,12 +54,12 @@
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-left">
-                                                <a class="dropdown-item" href="{{ route('books.show', $book->id) }}">Detail</a>
-                                                <a class="dropdown-item" href="{{ route('books.edit', $book->id) }}">Edit</a>
-                                                <a class="dropdown-item" href="#" onclick="confirmDelete({{ $book->id }}, '{{ $book->title }}')">Hapus</a>
+                                                <a class="dropdown-item" href="{{ route('categories.show', $category->id) }}">Lihat Daftar Buku</a>
+                                                <a class="dropdown-item" href="{{ route('categories.edit', $category->id) }}">Edit</a>
+                                                <a class="dropdown-item" href="#" onclick="confirmDelete({{ $category->id }}, '{{ $category->name }}')">Hapus</a>
                                             </div>
                                         </div>
-                                        <form id="delete-form-{{ $book->id }}" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: none;">
+                                        <form id="delete-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: none;">
                                             @csrf
                                             @method('DELETE')
                                         </form>
@@ -103,7 +91,7 @@
 
 <script>
 $(document).ready(function() {
-    $('#booksTable').DataTable({
+    $('#categoriesTable').DataTable({
         dom: 'Bfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
@@ -111,10 +99,10 @@ $(document).ready(function() {
     });
 });
 
-function confirmDelete(bookId, bookTitle) {
+function confirmDelete(categoryId, categoryName) {
     Swal.fire({
         title: 'Apakah Anda yakin?',
-        text: "Setelah dihapus, Anda tidak dapat memulihkan buku \"" + bookTitle + "\"!",
+        text: "Setelah dihapus, Anda tidak dapat memulihkan kategori \"" + categoryName + "\"!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -123,7 +111,7 @@ function confirmDelete(bookId, bookTitle) {
         cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
-            document.getElementById('delete-form-' + bookId).submit();
+            document.getElementById('delete-form-' + categoryId).submit();
         }
     })
 }

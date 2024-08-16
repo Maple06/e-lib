@@ -1,16 +1,15 @@
 <?php
 
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\BorrowingController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\{
-    BorrowingController,
-    BookController,
-    DashboardController,
-    HomeController,
-    MemberController,
-    UserController
-};
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +46,22 @@ Route::middleware('auth')->group(function () {
         Route::delete('{id}/force-delete', [BookController::class, 'forceDelete'])->name('books.force-delete');
     });
     Route::resource('books', BookController::class);
+
+    // Category routes including soft deletes
+    Route::prefix('categories')->group(function () {
+        Route::get('trashed', [CategoryController::class, 'trashed'])->name('categories.trashed');
+        Route::post('{id}/restore', [CategoryController::class, 'restore'])->name('categories.restore')->middleware('role:admin');
+        Route::delete('{id}/force-delete', [CategoryController::class, 'forceDelete'])->name('categories.force-delete')->middleware('role:admin');
+    });
+    Route::resource('categories', CategoryController::class);
+
+    // Publisher routes including soft deletes
+    Route::prefix('publishers')->group(function () {
+        Route::get('trashed', [PublisherController::class, 'trashed'])->name('categories.trashed');
+        Route::post('{id}/restore', [PublisherController::class, 'restore'])->name('categories.restore')->middleware('role:admin');
+        Route::delete('{id}/force-delete', [PublisherController::class, 'forceDelete'])->name('categories.force-delete')->middleware('role:admin');
+    });
+    Route::resource('publishers', PublisherController::class);
 
     // Borrowing routes
     Route::resource('borrowings', BorrowingController::class);
