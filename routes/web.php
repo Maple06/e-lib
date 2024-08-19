@@ -81,8 +81,4 @@ Route::middleware('auth')->group(function () {
     Route::get('app', [AppController::class, 'index'])->name('app.index')->middleware('role:admin');
     Route::get('app/edit', [AppController::class, 'edit'])->name('app.edit')->middleware('role:admin');
     Route::put('app/update', [AppController::class, 'update'])->name('app.update')->middleware('role:admin');
-
-    Route::get('samples/datepicker', function () {
-        return view('pages.samples.datepicker');
-    })->name('samples.datepicker');
 });

@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Publisher;
-
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -29,6 +26,7 @@ class BookController extends Controller
     {
         $categories = Category::all();
         $publishers = Publisher::all();
+
         return view('pages.books.create', compact('categories', 'publishers'));
     }
 
@@ -63,6 +61,7 @@ class BookController extends Controller
     {
         $categories = Category::all();
         $publishers = Publisher::all();
+
         return view('pages.books.edit', compact('book', 'categories', 'publishers'));
     }
 
