@@ -50,7 +50,7 @@
                                 <td>{{ $librarian->email }}</td>
                                 <td>{{ $librarian->created_at }}</td>
                                 <td>
-                                    <form action="{{ route('users.destroy', $librarian->id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('account.destroy', $librarian->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Delete</button>

@@ -57,5 +57,16 @@
     <script src="{{ asset('AdminLTE-3.2.0/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('AdminLTE-3.2.0/dist/js/adminlte.min.js') }}"></script>
+    <script>
+        @if(session('success'))
+            $(document).Toasts('create', {
+                class: 'bg-success',
+                title: 'Berhasil',
+                autohide: true, // Enable auto hide
+                delay: 3000,    // Auto close after 3 seconds
+                body: '{{ session('success') }}'
+            });
+        @endif
+    </script>
 </body>
 </html>

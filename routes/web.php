@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\CategoryController;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Define route for home page
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 // Auth routes
 Auth::routes(['register' => false, 'reset' => false]);
@@ -66,8 +67,20 @@ Route::middleware('auth')->group(function () {
     // Borrowing routes
     Route::resource('borrowings', BorrowingController::class);
 
-    // User routes protected with role middleware
-    Route::resource('users', UserController::class)->middleware('role:admin');
+    Route::resource('users', UserController::class)->only([
+        'index', 'create', 'store',
+    ])->middleware('role:admin');
+
+    Route::resource('account', UserController::class)->only([
+        'show', 'edit', 'update', 'destroy',
+    ]);
+
+    Route::get('/account/{id}/edit_password', [UserController::class, 'edit_password'])->name('account.edit_password');
+    Route::put('/account/{id}/update_password', [UserController::class, 'update_password'])->name('account.update_password');
+
+    Route::get('app', [AppController::class, 'index'])->name('app.index')->middleware('role:admin');
+    Route::get('app/edit', [AppController::class, 'edit'])->name('app.edit')->middleware('role:admin');
+    Route::put('app/update', [AppController::class, 'update'])->name('app.update')->middleware('role:admin');
 
     Route::get('samples/datepicker', function () {
         return view('pages.samples.datepicker');

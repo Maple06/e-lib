@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateAccountRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -46,7 +50,7 @@ class UserController extends Controller
                 'string',
                 'min:8',
                 'confirmed',
-                'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]*$/',
+                'regex:/^(?=.*\d)[A-Za-z\d]*$/',
             ],
         ], [
             'full_name.required' => 'Nama lengkap wajib diisi',
@@ -61,7 +65,7 @@ class UserController extends Controller
             'password.string' => 'Password harus berupa teks',
             'password.min' => 'Password minimal 8 karakter',
             'password.confirmed' => 'Konfirmasi password berbeda',
-            'password.regex' => 'Password harus mengandung minimal satu huruf besar, satu huruf kecil, dan satu angka',
+            'password.regex' => 'Password harus mengandung minimal satu angka',
         ]);
 
         User::create([
@@ -79,9 +83,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $account)
     {
-        return view('pages.users.show', compact('user'));
+        if (Auth::id() !== $account->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('pages.account.index', compact('account'));
     }
 
     /**
@@ -89,9 +97,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(User $account)
     {
-        return view('pages.users.edit', compact('user'));
+        if (Auth::id() !== $account->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('pages.account.edit', compact('account'));
     }
 
     /**
@@ -99,23 +111,93 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateAccountRequest $request, User $account)
     {
+        if (Auth::id() !== $account->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $validatedData = $request->validated();
+
+        // Handle file upload
+        if ($request->hasFile('profile_photo')) {
+            // Delete the old cover image if it exists
+            if ($account->profile_photo) {
+                Storage::disk('public')->delete($account->profile_photo);
+            }
+
+            // Store the new file and get the path
+            $path = $request->file('profile_photo')->store('profiles', 'public');
+
+            // Save the path to the validated data
+            $validatedData['profile_photo'] = $path;
+        } else {
+            // If no new file is uploaded, keep the old cover image
+            unset($validatedData['profile_photo']);
+        }
+
+        $account->update($validatedData);
+
+        return redirect()->route('account.show', $account->id)->with('success', 'Akun berhasil diperbarui.');
+    }
+
+    /**
+     * Update password page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit_password($id)
+    {
+        $id = (int) $id;
+
+        if (Auth::id() !== $id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $account = Auth::user();
+
+        return view('pages.account.edit_password', compact('account'));
+    }
+
+    /**
+     * Updates the users password.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update_password(Request $request, $id)
+    {
+        $id = (int) $id;
+
+        if (Auth::id() !== $id) {
+            abort(403, 'Unauthorized action.');
+        }
+        $user = Auth::user();
+
+        // Check if current password matches
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Password lama salah']);
+        }
+
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:admin,librarian',
+            'new_password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*\d)[A-Za-z\d]*$/',
+            ],
+        ], [
+            'new_password.required' => 'Password baru harus diisi',
+            'new_password.string' => 'Password baru harus berupa teks',
+            'new_password.min' => 'Password baru minimal 8 karakter',
+            'new_password.regex' => 'Password baru harus mengandung minimal satu angka',
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password,
-            'role' => $request->role,
-        ]);
+        // Update the password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('account.show', $user->id)->with('status', 'Password berhasil diganti');
     }
 
     /**
@@ -123,10 +205,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $account)
     {
-        $user->delete();
+        $id = (int) $id;
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        if (Auth::id() !== $account->id) {
+            abort(403, 'Unauthorized action.');
+        } elseif (Auth::user()->role == 'admin') {
+            abort(403, 'Unauthorized action. Cannot delete admin account.');
+        }
+
+        $account->delete();
+
+        return redirect()->route('home.index')->with('success', 'Akun berhasil dihapus');
     }
 }
