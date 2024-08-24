@@ -16,15 +16,15 @@
 <hr>
 
 ### Fitur yang ditambahkan
-1. Hapus pengguna (hanya admin) pada halaman pengguna (429785d1bd1bc11a7e142e17d461d5081bd6e4db)
-2. Validasi telepon menggunakan [Laravel-Phone plugin](https://github.com/Propaganistas/Laravel-Phone) (429785d1bd1bc11a7e142e17d461d5081bd6e4db)
-3. Perubahan dalam styling login page (75f179ba118141e4f99b423781fca9dedd9686e3)
-4. CRUD Penerbit (bbe4124f22af96c4ec95a2e5aba2a70bde148d9f)
-5. CRUD Kategori (bbe4124f22af96c4ec95a2e5aba2a70bde148d9f)
-6. Buat pengguna alias pustakawan (hanya admin) (ccf80f41cdb8815f5ed709242a01c84523b7cecd)
-7. Pengaturan akun termasuk ganti password dan hapus akun (b20622840fb07e65cb0d2e1c96fa24c414881a4e)
-8. Pengaturan aplikasi (hanya admin) (b20622840fb07e65cb0d2e1c96fa24c414881a4e)
-9. Menghapus page contoh karena tidak diperlukan lagi (2bf936bcd0eb7046eded024ddc7b330d583876e1)
+1. Hapus pengguna (hanya admin) pada halaman pengguna [429785d](https://github.com/Maple06/e-lib/commit/429785d1bd1bc11a7e142e17d461d5081bd6e4db)
+2. Validasi telepon menggunakan [Laravel-Phone plugin](https://github.com/Propaganistas/Laravel-Phone) [429785d](https://github.com/Maple06/e-lib/commit/429785d1bd1bc11a7e142e17d461d5081bd6e4db)
+3. Perubahan dalam styling login page [75f179b](https://github.com/Maple06/e-lib/commit/75f179ba118141e4f99b423781fca9dedd9686e3)
+4. CRUD Penerbit [bbe4124](https://github.com/Maple06/e-lib/commit/bbe4124f22af96c4ec95a2e5aba2a70bde148d9f)
+5. CRUD Kategori [bbe4124](https://github.com/Maple06/e-lib/commit/bbe4124f22af96c4ec95a2e5aba2a70bde148d9f)
+6. Buat pengguna alias pustakawan (hanya admin) [ccf80f4](https://github.com/Maple06/e-lib/commit/ccf80f41cdb8815f5ed709242a01c84523b7cecd)
+7. Pengaturan akun termasuk ganti password dan hapus akun [b206228](https://github.com/Maple06/e-lib/commit/b20622840fb07e65cb0d2e1c96fa24c414881a4e)
+8. Pengaturan aplikasi (hanya admin) [b206228](https://github.com/Maple06/e-lib/commit/b20622840fb07e65cb0d2e1c96fa24c414881a4e)
+9. Menghapus page contoh karena tidak diperlukan lagi [2bf936b](https://github.com/Maple06/e-lib/commit/2bf936bcd0eb7046eded024ddc7b330d583876e1)
  
 ### Fitur yang belum diimplementasikan
 1. Mengganti UI dan backend dashboard
