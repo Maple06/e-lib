@@ -107,17 +107,6 @@
                         </p>
                     </a>
                 </li>
-
-                {{-- Sample pages --}}
-                <li class="nav-header">Halaman Contoh</li>
-                <li class="nav-item">
-                    <a href="{{ route('samples.datepicker') }}" class="nav-link {{ request()->routeIs('samples.datepicker') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-calendar"></i>
-                        <p>
-                            Date Picker
-                        </p>
-                    </a>
-                </li>
                 
                 {{-- Settings --}}
                 <li class="nav-header">Pengaturan</li>

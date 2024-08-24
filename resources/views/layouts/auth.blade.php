@@ -1,9 +1,15 @@
+@php
+    use Illuminate\Support\Facades\File;
+    $app = json_decode(File::get(base_path('app_info.json')));
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - {{ config('app.name', 'e-Library') }}</title>
+    <link rel="icon" href="{{ asset($app->logo_path) }}">
     <!-- AdminLTE CSS -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('AdminLTE-3.2.0/dist/css/adminlte.min.css') }}">

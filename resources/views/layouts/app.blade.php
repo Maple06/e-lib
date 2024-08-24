@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\File;
+    $app = json_decode(File::get(base_path('app_info.json')));
+@endphp
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('AdminLTE-3.2.0/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('AdminLTE-3.2.0/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+    <link rel="icon" href="{{ asset($app->logo_path) }}">
     @yield('css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -48,8 +54,6 @@
 <script src="{{ asset('AdminLTE-3.2.0/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('AdminLTE-3.2.0/dist/js/adminlte.js') }}"></script>
-<!-- Include SweetAlert2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 @yield('js')
 </body>
 </html>

@@ -34,7 +34,11 @@ Route::middleware('auth')->group(function () {
     // Dashboard routes
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/data/book-categories', [DashboardController::class, 'getBookCategories'])->name('dashboard.data.book_categories');
+        Route::get('/data/popular-categories', [DashboardController::class, 'getPopularCategories'])->name('dashboard.data.popular_categories');
+        Route::get('/data/book-statuses', [DashboardController::class, 'getBookStatuses'])->name('dashboard.data.book_statuses');
         Route::get('/data/books-by-month', [DashboardController::class, 'getBooksByMonthData'])->name('dashboard.data.books_by_month');
+        Route::get('/export/{date}', [DashboardController::class, 'export'])->name('dashboard.export');
     });
 
     // Member routes

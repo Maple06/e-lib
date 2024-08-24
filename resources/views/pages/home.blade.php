@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\File;
+    $app = json_decode(File::get(base_path('app_info.json')));
+@endphp
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,6 +12,7 @@
     <link href="{{ asset('AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('AdminLTE-3.2.0/dist/css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="icon" href="{{ asset($app->logo_path) }}">
 </head>
 <body class="hold-transition layout-top-nav">
     <div class="wrapper">
@@ -15,7 +21,8 @@
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
                 <a href="{{ url('/') }}" class="navbar-brand">
-                    <span class="brand-text font-weight-light">e-Library</span>
+                    <img src="{{ asset($app->logo_path) }}" alt="Logo Aplikasi" style="width:50px">
+                    <span class="brand-text font-weight-light">{{ $app->name }}</span>
                 </a>
                 <div class="collapse navbar-collapse order-3" id="navbarCollapse">
                     <ul class="navbar-nav">
